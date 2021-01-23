@@ -1,0 +1,9 @@
+{
+	"APP_NAME": "We ❤️ Games",
+	"API_URI": "https://welg.herokuapp.com/api",
+	"CHEAPSHARK_API": "https://www.cheapshark.com/api/1.0",
+	"CHEAPSHARK_DEAL_REDIRECT": "https://www.cheapshark.com/redirect?dealID",
+	"STORAGE_KEY_TOKEN": "authToken",
+	"STORAGE_KEY_TIMESTAMP": "authTimestamp",
+	"STORAGE_EXPIRATION_TIME": 5
+}

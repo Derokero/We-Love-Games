@@ -1,0 +1,13 @@
+{
+	"name": "we-love-games",
+	"version": "1.0.0",
+	"description": "A project built with the MERN stack",
+	"main": "server-api",
+	"scripts": {
+		"start": "node server-api",
+		"dev": "start nodemon server-api && cd client-ui && start npm start",
+		"heroku-postbuild": "cd server-api && npm i & cd client-ui && npm i && npm run build"
+	},
+	"author": "Derokero",
+	"license": "ISC"
+}
