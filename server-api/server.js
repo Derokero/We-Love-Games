@@ -1,6 +1,6 @@
 const express = require("express");
 const helmet = require("helmet");
-const cors = require("cors");
+// const cors = require("cors");
 const path = require("path");
 const mongoose = require("mongoose");
 const config = require("./config/config");
@@ -31,11 +31,12 @@ app.use(
 	})
 ); // Setup headers for basic security
 
-const corsOptions = {
+// Enable for development
+/* const corsOptions = {
 	origin: `http://localhost:3000`, // Whitelist only React's dev server
 	optionsSuccessStatus: 200,
 };
-app.use(cors(corsOptions));
+app.use(cors(corsOptions)); */
 
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "../client-ui/build")));

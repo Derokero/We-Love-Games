@@ -69,9 +69,9 @@ export default function GameReviews({match, location}) {
 	// On mount
 	useEffect(() => {
 		(async function init() {
+			if (!user) return;
 			await fetchGameReviews();
 
-			if (!user) return;
 			const userReviews = await userDataService.getUserReviews();
 			setUserReviews(userReviews);
 		})();
