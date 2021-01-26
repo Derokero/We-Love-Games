@@ -11,4 +11,4 @@ Built using Node.JS running an Express server, MongoDB, using Mongoose as driver
 - Favorites: Add games to favorites and browse top favorite games added by others!
 - To-play list: Add games you&apos;d like to play in the future to your to-play list!
 
-_Link to deployed version coming soon!_
+Check it out here: https://welg.herokuapp.com/
