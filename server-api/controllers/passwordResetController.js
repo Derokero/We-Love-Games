@@ -8,6 +8,23 @@ const config = require("../config/config");
 const PASSWORD_ID_EXPIRATION = 900000; // 15(minutes) * 1000 * 60
 const resetIds = {};
 
+/* Check if password id is valid and not expired */
+function isValidId(passwordResetId) {
+	const _resetId = resetIds[passwordResetId];
+
+	// No ID exits in resetIds
+	if (!_resetId) return false;
+
+	// Expired
+	if (_resetId && _resetId.timestamp && Date.now() - _resetId.timestamp >= PASSWORD_ID_EXPIRATION) {
+		delete resetIds[passwordResetId]; // Remove from resetIds
+		return false;
+	}
+
+	// Valid
+	return true;
+}
+
 /* Request password reset */
 exports.requestPasswordReset = async (req, res) => {
 	if (!(req.body && req.body.email)) return res.status(400).send("Invalid email!");
@@ -37,14 +54,7 @@ exports.resetPassword = async (req, res) => {
 	if (!(req.body && req.body.password)) return res.status(400).send("No password provided!");
 
 	const {passwordResetId} = req.params;
-	// Check expiration time
-	if (
-		resetIds[passwordResetId] &&
-		Date.now() - resetIds[passwordResetId].timestamp >= PASSWORD_ID_EXPIRATION
-	)
-		delete resetIds[passwordResetId]; // Invalidate
-
-	if (!resetIds[passwordResetId]) return res.status(400).send("Invalid password reset ID!");
+	if (!isValidId(passwordResetId)) return res.status(400).send("Invalid password reset ID!");
 
 	const savedUser = await User.findOne({email: resetIds[passwordResetId].email});
 	req.user = savedUser; // Pass user to change password
@@ -60,17 +70,9 @@ exports.resetPassword = async (req, res) => {
 /* Validate password reset request ID */
 exports.validateResetId = async (req, res) => {
 	if (!(req.body && req.body.passwordResetId)) return res.status(400).send("Invalid password reset ID!");
+
 	const {passwordResetId} = req.body;
-
-	if (!resetIds[passwordResetId]) return res.status(400).send("Invalid password reset ID!");
-	// Check expiration time
-	if (
-		resetIds[passwordResetId] &&
-		Date.now() - resetIds[passwordResetId].timestamp >= PASSWORD_ID_EXPIRATION
-	)
-		delete resetIds[passwordResetId]; // Invalidate
-
-	if (!resetIds[passwordResetId]) return res.status(400).send("Invalid password reset ID!");
+	if (!isValidId(passwordResetId)) return res.status(400).send("Invalid password reset ID!");
 
 	return res.status(200).send("Success!");
 };
